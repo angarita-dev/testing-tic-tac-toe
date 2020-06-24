@@ -1,9 +1,10 @@
 .card {
+  position: relative;
   background-color: $grey;
   border-radius: 11px;
   margin: auto;
   width: 35%;
-
+  
   &::after {
     content: "";
     display: block;

@@ -1,0 +1,33 @@
+@import '../shared/variables';
+
+.board {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-gap: 2%;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+
+  .tile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $light-grey;
+    border-radius: 2%;
+
+    span {
+      color: $light-white; 
+      font-family: $title-font;
+      font-size: 3rem;
+      cursor: default;
+
+      &:empty {
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+      }
+    }  
+  }
+
+}
