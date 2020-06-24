@@ -1,0 +1,10 @@
+@import "../shared/variables";
+@import "../shared/mixins";
+
+.container {
+  @include flex-column;
+
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
