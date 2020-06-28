@@ -1,9 +1,11 @@
 @import "components/container";
 @import "components/card";
+@import "components/side-card";
 @import "components/board";
 
 @import "shared/variables";
 @import "shared/mixins";
+@import "shared/animations";
 
 html {
   width: 100%;
@@ -20,4 +22,5 @@ body {
 .title {
   color: $white;
   font-family: $title-font;
+  justify-self: start;
 }
