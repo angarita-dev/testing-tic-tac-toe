@@ -14,7 +14,8 @@
   position: absolute;
   z-index: -1;
 
-  &, .slide-in { z-index: 0; }
+  &,
+  .slide-in { z-index: 0; }
 
   h1 {
     margin: auto 0;
@@ -27,7 +28,7 @@
     font-family: $text-font;
     cursor: pointer;
     transition: color 1s ease;
-    
+
     &:hover {
       color: $white;
     }
@@ -38,6 +39,7 @@
 
     justify-content: space-between;
     padding: 0 10%;
+
     input {
       background-color: $grey;
       color: $dark-white;
@@ -46,16 +48,19 @@
       border-bottom: 1px solid $light-grey;
       transition: border-bottom 1s ease;
 
-      &:hover, &:focus {
+      &:hover,
+      &:focus {
         border-bottom: 1px solid $dark-white;
       }
     }
+
     .name-input {
       width: 60%;
     }
+
     .char-input {
       width: 10%;
-      text-align: center; 
+      text-align: center;
     }
   }
 }
