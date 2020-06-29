@@ -3,6 +3,14 @@ class Board {
     this.boardData = [[], [], []];
   }
 
+  getBoardData() {
+    return this.boardData;
+  }
+
+  getTileData(row, column) {
+    return this.boardData[row][column];
+  }
+
   isAvailable(row, column) {
     return this.boardData[row][column] === undefined;
   }
