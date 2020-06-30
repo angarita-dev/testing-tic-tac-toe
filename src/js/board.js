@@ -3,6 +3,10 @@ class Board {
     this.boardData = [[], [], []];
   }
 
+  clearBoardData() {
+    this.boardData = [[], [], []];
+  }
+
   getBoardData() {
     return this.boardData;
   }
@@ -39,7 +43,7 @@ class Board {
     };
 
     const setDirectionVariable = (currentValue, row, column) => {
-      if (currentValue && checkDirection(currentValue, row, column)) {
+      if ((currentValue === undefined || currentValue) && checkDirection(currentValue, row, column)) {
         return this.boardData[row][column];
       }
 
@@ -53,12 +57,17 @@ class Board {
       for (col = 0; col <= 2; col += 1) {
         horizontal = setDirectionVariable(horizontal, row, col);
         vertical = setDirectionVariable(vertical, col, row);
-        if (col === 2 && (horizontal || vertical)) {
-          return true;
+        if (col === 2) {
+          if (horizontal || vertical) {
+            return true;
+          } else {
+            horizontal = undefined;
+            vertical = undefined;
+          }
         }
       }
 
-      if (col === 2 && (leftToRight || rightToLeft)) {
+      if (row === 2 && (leftToRight || rightToLeft)) {
         return true;
       }
     }
