@@ -11,6 +11,10 @@ class Board {
     return this.boardData;
   }
 
+  indexToCoordinates(index) {
+    return [Math.floor(index/3), index%3];
+  }
+
   getTileData(row, column) {
     return this.boardData[row][column];
   }
@@ -26,7 +30,7 @@ class Board {
     return character;
   }
 
-  isDraw() {
+  isTie() {
     const leanData = this.boardData.flat().filter( chr => chr !== undefined );
 
     return leanData.length === 9;
@@ -40,20 +44,16 @@ class Board {
     let horizontal;
     let vertical;
 
-    const checkDirection = (currentValue, row, column) => {
-      if (currentValue === undefined || this.boardData[row][column] === currentValue) {
-        return true;
-      }
-
-      return false;
-    };
-
     const setDirectionVariable = (currentValue, row, column) => {
-      if ((currentValue === undefined || currentValue) && checkDirection(currentValue, row, column)) {
-        return this.boardData[row][column];
-      }
+      const writtenChar = this.boardData[row][column];
 
-      return false;
+      if(writtenChar === undefined) return false;
+
+      if(currentValue === undefined) return writtenChar;
+
+      if(currentValue && currentValue === writtenChar) return writtenChar;
+
+      return false
     };
 
     for (row = 0; row <= 2; row += 1) {
@@ -63,13 +63,12 @@ class Board {
       for (col = 0; col <= 2; col += 1) {
         horizontal = setDirectionVariable(horizontal, row, col);
         vertical = setDirectionVariable(vertical, col, row);
+
         if (col === 2) {
-          if (horizontal || vertical) {
-            return true;
-          } else {
-            horizontal = undefined;
-            vertical = undefined;
-          }
+          if (horizontal || vertical) return true;
+
+          horizontal = undefined;
+          vertical = undefined;
         }
       }
 
