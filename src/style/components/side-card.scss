@@ -17,10 +17,11 @@
   &,
   .slide-in { z-index: 0; }
 
-  h1 {
+  h3 {
     margin: auto 0;
     color: $light-white;
     font-family: $text-font;
+    font-weight: 400;
   }
 
   .submit-players {
