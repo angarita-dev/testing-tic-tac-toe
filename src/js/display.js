@@ -24,7 +24,10 @@ class Display {
     const tileContainers = Array.from(document.getElementsByClassName('tile-container'));
 
     tileContainers.forEach( tileContainer => {
-      tileContainer.onclick = () => { handleFunction() };
+      tileContainer.onclick = () => { 
+        const itemIndex = tileContainers.indexOf(tileContainer);
+        handleFunction(itemIndex);
+      };
     });
   }
 
@@ -79,11 +82,11 @@ class Display {
       if(char1 === char2 || char1.length > 1 || char2.length > 1) return false;
 
       submitHandleFunction({
-        p1: {
+        player1: {
           name: document.getElementById('p1-name').value,
           character: char1, 
         },
-        p2: {
+        player2: {
           name: document.getElementById('p2-name').value,
           character: char2, 
         }

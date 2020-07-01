@@ -128,11 +128,11 @@ test('Displays form', () => {
   expect(handleFormSubmit.mock.calls.length).toBe(1);
   expect(handleFormSubmit.mock.results[0].value)
     .toStrictEqual({
-      p1: {
+      player1: {
         name: 'player1',
         character: '1',
       },
-      p2: {
+      player2: {
         name: 'player2',
         character: '2',
       },
