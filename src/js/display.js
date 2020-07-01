@@ -66,12 +66,12 @@ class Display {
       const nameInput = document.createElement('input');
       nameInput.className = 'name-input';
       nameInput.id = `p${i}-name`;
-      nameInput.placeHolder = `Player ${i} name`;
+      nameInput.value = `Player ${i} name`;
 
       const charInput = document.createElement('input');
       charInput.className = 'char-input';
       charInput.id = `p${i}-char`;
-      charInput.placeHolder = i == 1 ? 'x' : 'o';
+      charInput.value = i == 1 ? 'x' : 'o';
 
       playerContainer.appendChild(nameInput);
       playerContainer.appendChild(charInput);
