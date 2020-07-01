@@ -8,15 +8,15 @@ test('Hides and shows side-card', () => {
 
   display.hideSideCard();
   expect(Array.from(document.getElementById('side-card').classList))
-    .toEqual(expect.arrayContaining(['slide-in']));
+    .toEqual(expect.arrayContaining(['slide-out']));
 
   display.displaySideCard();
   expect(Array.from(document.getElementById('side-card').classList))
-    .toEqual(expect.arrayContaining(['slide-out']));
+    .toEqual(expect.arrayContaining(['slide-in']));
 
   display.hideSideCard();
   expect(Array.from(document.getElementById('side-card').classList))
-    .toEqual(expect.arrayContaining(['slide-in']));
+    .toEqual(expect.arrayContaining(['slide-out']));
 });
 
 
@@ -48,6 +48,28 @@ test('Clears side card before adding message', () => {
   expect(firstChild.parentElement.children.length).toBe(1);
   expect(firstChild.nodeName).toBe('H3');
   expect(firstChild.textContent).toBe(message);
+});
+
+test('Displays win', () => {
+  const display = new Display();
+  const tileContainers = Array.from(document.getElementsByClassName('tile-container'));
+  const partyIcon = String.fromCodePoint(0x0001F389);
+
+  let boardHTML = '<div class="board" id="board">' 
+  for(let i = 0; i < 9; i += 1){
+    boardHTML += `
+      <div class="tile"> 
+      <h1 class="tile-container"></h1> 
+      </div>`;
+  }
+  boardHTML += '</div>'; 
+  document.body.innerHTML = boardHTML;
+
+  display.displayWin();  
+
+  tileContainers.forEach( tileContainer => {
+    expect(tileContainer.textContent).toBe(partyIcon); 
+  });
 });
 
 test('Fills tile with character', () => {

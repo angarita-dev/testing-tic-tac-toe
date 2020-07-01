@@ -6,14 +6,22 @@ class Display {
     }
   }
 
-  hideSideCard() {
+  displaySideCard() {
     const sideCard = document.getElementById('side-card');
     
     sideCard.classList.remove('slide-out');
     sideCard.classList.add('slide-in');
   }
 
-  displaySideCard() {
+  displayWin() {
+    const tileContainers = Array.from(document.getElementsByClassName('tile-container'));
+
+    tileContainers.forEach( tileContainer => {
+      tileContainer.textContent = String.fromCodePoint(0x0001F389); 
+    });
+  }
+
+  hideSideCard() {
     const sideCard = document.getElementById('side-card');
     
     sideCard.classList.remove('slide-in');
