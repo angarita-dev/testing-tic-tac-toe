@@ -139,12 +139,12 @@ test('Displays form', () => {
     expect(charInput.className).toBe('char-input');
     expect(nameInput.id).toBe('p' + playerContainerPosition + '-name');
     expect(charInput.id).toBe('p' + playerContainerPosition + '-char');
-    expect(nameInput.value).toBe('Player ' + playerContainerPosition + ' name');
+    expect(nameInput.value).toBe('Player ' + playerContainerPosition);
 
     if(playerContainerPosition == 1) {
-      expect(charInput.value).toBe('x');
+      expect(charInput.value).toBe('X');
     } else {
-      expect(charInput.value).toBe('o');
+      expect(charInput.value).toBe('O');
     }
     playerContainerPosition += 1;
   });
