@@ -46,7 +46,7 @@ test('Draw grame', () => {
   board.fillSpace(0,1,'o');
   board.fillSpace(0,2,'x');
 
-  expect(board.isDraw()).toEqual(false);
+  expect(board.isTie()).toEqual(false);
 
   board.fillSpace(1,0,'x');
   board.fillSpace(1,1,'o');
@@ -56,7 +56,7 @@ test('Draw grame', () => {
   board.fillSpace(2,1,'o');
   board.fillSpace(2,2,'x');
 
-  expect(board.isDraw()).toEqual(true);
+  expect(board.isTie()).toEqual(true);
 });
 
 
