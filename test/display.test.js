@@ -50,10 +50,27 @@ test('Clears side card before adding message', () => {
   expect(firstChild.textContent).toBe(message);
 });
 
+test('Clears board', () => {
+  const display = new Display();
+
+  let boardHTML = '<div class="board" id="board">' 
+  for(let i = 0; i < 9; i += 1){
+    boardHTML += `
+      <div class="tile"> 
+      <h1 class="tile-container"></h1> 
+      </div>`;
+  }
+  boardHTML += '</div>'; 
+  document.body.innerHTML = boardHTML;
+
+  display.fillTile(0, 'X');
+  display.clearBoard();
+  expect(document.getElementsByClassName('tile-container')[0].innerHTML)
+    .toBe('');
+});
+
 test('Displays win', () => {
   const display = new Display();
-  const tileContainers = Array.from(document.getElementsByClassName('tile-container'));
-  const partyIcon = String.fromCodePoint(0x0001F389);
 
   let boardHTML = '<div class="board" id="board">' 
   for(let i = 0; i < 9; i += 1){
@@ -67,8 +84,10 @@ test('Displays win', () => {
 
   display.displayWin();  
 
+  const tileContainers = Array.from(document.getElementsByClassName('tile-container'));
+
   tileContainers.forEach( tileContainer => {
-    expect(tileContainer.textContent).toBe(partyIcon); 
+    expect(tileContainer.textContent).toBe(String.fromCodePoint(0x0001F389)); 
   });
 });
 

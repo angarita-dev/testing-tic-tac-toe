@@ -6,6 +6,20 @@ class Display {
     }
   }
 
+  clearBoard() {
+    const board = document.getElementById('board');
+
+    let boardHTML = '' ;
+    for(let i = 0; i < 9; i += 1){
+      boardHTML += `
+        <div class="tile"> 
+        <h1 class="tile-container"></h1> 
+        </div>`;
+    }
+
+    board.innerHTML = boardHTML;
+  }
+
   displaySideCard() {
     const sideCard = document.getElementById('side-card');
     
@@ -19,6 +33,25 @@ class Display {
     tileContainers.forEach( tileContainer => {
       tileContainer.textContent = String.fromCodePoint(0x0001F389); 
     });
+  }
+
+  displayReplay(handleReplay, handleRematch) {
+    const sideCard = document.getElementById('side-card');
+    const buttonContainer = document.createElement('div');
+
+    buttonContainer.classList.add('replay-container');
+    
+    const rematch = document.createElement('span'); 
+    rematch.classList.add('rematch-button');
+    rematch.onclick = () => { handleRematch() };
+
+    const replay = document.createElement('span'); 
+    replay.classList.add('rematch-button');
+    replay.onclick = () => { handleReplay() };
+
+    buttonContainer.appendChild(rematch);
+    buttonContainer.appendChild(replay);
+    sideCard.appendChild(buttonContainer);
   }
 
   hideSideCard() {
