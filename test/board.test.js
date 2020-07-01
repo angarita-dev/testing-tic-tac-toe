@@ -39,6 +39,27 @@ test('Clears board', () => {
   expect(board.getBoardData()).toStrictEqual([[],[],[]]);
 });
 
+test('Draw grame', () => {
+  const board = new Board();
+
+  board.fillSpace(0,0,'x');
+  board.fillSpace(0,1,'o');
+  board.fillSpace(0,2,'x');
+
+  expect(board.isDraw()).toEqual(false);
+
+  board.fillSpace(1,0,'x');
+  board.fillSpace(1,1,'o');
+  board.fillSpace(1,2,'x');
+
+  board.fillSpace(2,0,'x');
+  board.fillSpace(2,1,'o');
+  board.fillSpace(2,2,'x');
+
+  expect(board.isDraw()).toEqual(true);
+});
+
+
 test("Win won't trigger false possitives", () => {
   const board = new Board();
 

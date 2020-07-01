@@ -26,6 +26,12 @@ class Board {
     return character;
   }
 
+  isDraw() {
+    const leanData = this.boardData.flat().filter( chr => chr !== undefined );
+
+    return leanData.length === 9;
+  }
+
   isWin() {
     let row;
     let col;
