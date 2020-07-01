@@ -1,5 +1,25 @@
 import Display from '../src/js/display';
 
+test('Hides and shows side-card', () => {
+  const display = new Display();
+  document.body.innerHTML =
+    '<div class="side-card slide-in" id="side-card">' +
+    '</div>';
+
+  display.hideSideCard();
+  expect(Array.from(document.getElementById('side-card').classList))
+    .toEqual(expect.arrayContaining(['slide-in']));
+
+  display.displaySideCard();
+  expect(Array.from(document.getElementById('side-card').classList))
+    .toEqual(expect.arrayContaining(['slide-out']));
+
+  display.hideSideCard();
+  expect(Array.from(document.getElementById('side-card').classList))
+    .toEqual(expect.arrayContaining(['slide-in']));
+});
+
+
 test('Adds message to side-card', () => {
   const display = new Display();
   document.body.innerHTML =
