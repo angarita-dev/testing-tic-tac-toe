@@ -35,23 +35,28 @@ class Display {
     });
   }
 
-  displayReplay(handleReplay, handleRematch) {
+  displayReplay(rematchHandler, restartHandler) {
     const sideCard = document.getElementById('side-card');
+
     const buttonContainer = document.createElement('div');
-
     buttonContainer.classList.add('replay-container');
-    
-    const rematch = document.createElement('span'); 
-    rematch.classList.add('rematch-button');
-    rematch.onclick = () => { handleRematch() };
 
-    const replay = document.createElement('span'); 
-    replay.classList.add('rematch-button');
-    replay.onclick = () => { handleReplay() };
+    const rematch = document.createElement('span');
+    rematch.textContent = 'Rematch';
+
+    const restart = document.createElement('span');
+    restart.textContent = 'New game';
+    
+    sideCard.appendChild(buttonContainer);
 
     buttonContainer.appendChild(rematch);
-    buttonContainer.appendChild(replay);
-    sideCard.appendChild(buttonContainer);
+    buttonContainer.appendChild(restart);
+
+    rematch.classList.add('rematch-button');
+    rematch.onclick = () => { rematchHandler() };
+
+    restart.classList.add('restart-button');
+    restart.onclick = () => { restartHandler() };
   }
 
   hideSideCard() {
