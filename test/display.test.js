@@ -37,7 +37,7 @@ test('Fills tile with character', () => {
   for(let i = 0; i < 9; i += 1){
     boardHTML += `
       <div class="tile"> 
-        <h1 class="tile-container"></h1> 
+      <h1 class="tile-container"></h1> 
       </div>`;
   }
   boardHTML += '</div>'; 
@@ -56,17 +56,20 @@ test('Fills tile with character', () => {
 
 test('Displays form', () => {
   const display = new Display();
+  const handleFormSubmit = jest.fn(info => info);
 
   document.body.innerHTML = `
     <div class="side-card slide-in" id="side-card">
     </div>`;
 
-  display.displayForm();
+  display.displayForm(handleFormSubmit);
   const playerContainers = Array.from(document.getElementsByClassName('player-container'));
   const submitButton = document.getElementById('side-card').lastChild;
 
+  // Testing form display
+
   expect(playerContainers.length).toBe(2);
-  
+
   let playerContainerPosition = 1;
   playerContainers.forEach( playerContainer => {
     const nameInput = playerContainer.firstElementChild;
@@ -87,6 +90,61 @@ test('Displays form', () => {
 
   expect(submitButton.nodeName).toBe('SPAN');
   expect(submitButton.textContent).toBe('Submit');
+
+  // Testing form submit
+
+  playerContainerPosition = 1;
+  playerContainers.forEach( playerContainer => {
+    const nameInput = playerContainer.firstElementChild;
+    const charInput = playerContainer.lastElementChild;
+
+    nameInput.value = `player${playerContainerPosition}`;
+    charInput.value = `${playerContainerPosition}`;
+    playerContainerPosition += 1;
+  });
+
+  expect(handleFormSubmit.mock.calls.length).toBe(0);
+  submitButton.click(); 
+  expect(handleFormSubmit.mock.calls.length).toBe(1);
+  expect(handleFormSubmit.mock.results[0].value)
+    .toStrictEqual({
+      p1: {
+        name: 'player1',
+        character: '1',
+      },
+      p2: {
+        name: 'player2',
+        character: '2',
+      },
+    });
+
+  // Shouldn't submit form if characters equal
+
+  playerContainerPosition = 1;
+  playerContainers.forEach( playerContainer => {
+    const nameInput = playerContainer.firstElementChild;
+    const charInput = playerContainer.lastElementChild;
+
+    nameInput.value = `player${playerContainerPosition}`;
+    charInput.value = 'x';
+    playerContainerPosition += 1;
+  });
+  submitButton.click(); 
+  expect(handleFormSubmit.mock.calls.length).toBe(1);
+
+  // Shouldn't submit form if characters longer than 1
+  playerContainerPosition = 1;
+  playerContainers.forEach( playerContainer => {
+    const nameInput = playerContainer.firstElementChild;
+    const charInput = playerContainer.lastElementChild;
+
+    nameInput.value = `player${playerContainerPosition}`;
+    charInput.value = `x${playerContainerPosition}`;
+    playerContainerPosition += 1;
+  });
+  submitButton.click(); 
+  expect(handleFormSubmit.mock.calls.length).toBe(1);
+
 });
 
 test('Should add eventListener to tile click', () => {
@@ -96,7 +154,7 @@ test('Should add eventListener to tile click', () => {
   for(let i = 0; i < 9; i += 1){
     boardHTML += `
       <div class="tile"> 
-        <h1 class="tile-container"></h1> 
+      <h1 class="tile-container"></h1> 
       </div>`;
   }
 

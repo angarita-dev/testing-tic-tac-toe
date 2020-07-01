@@ -30,7 +30,7 @@ class Display {
     sideCardContainer.appendChild(messageComponent);
   }
 
-  displayForm() {
+  displayForm(submitHandleFunction) {
     const sideCardContainer = document.getElementById('side-card'); 
 
     this.clearChildren(sideCardContainer);
@@ -57,6 +57,24 @@ class Display {
     submitButton.id = 'submit-players';
     submitButton.className = 'submit-players';
     submitButton.textContent = 'Submit';
+
+    submitButton.onclick = () => {
+      let char1 = document.getElementById('p1-char').value;
+      let char2 = document.getElementById('p2-char').value;
+
+      if(char1 === char2 || char1.length > 1 || char2.length > 1) return false;
+
+      submitHandleFunction({
+        p1: {
+          name: document.getElementById('p1-name').value,
+          character: char1, 
+        },
+        p2: {
+          name: document.getElementById('p2-name').value,
+          character: char2, 
+        }
+      });
+    }
 
     sideCardContainer.appendChild(submitButton);
   }
