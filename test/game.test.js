@@ -6,21 +6,18 @@ jest.mock('../src/js/display');
 jest.mock('../src/js/board');
 
 beforeEach(() => {
-  Display.mockClear();
-  Board.mockClear();
+  jest.clearAllMocks();
 });
 
 it('Game constructor should instantiate classes and properties', () => {
   const game = new Game();
 
-  expect(Display).toHaveBeenCalledTimes(1);
   expect(Board).toHaveBeenCalledTimes(1);
   expect(game.player1).toStrictEqual({});
   expect(game.player2).toStrictEqual({});
   expect(game.currentPlayer).toStrictEqual({});
 
-  const mockDisplayInstance = Display.mock.instances[0];
-  const displayFormMock = mockDisplayInstance.displayForm;
+  const displayFormMock = Display.displayForm;
 
   expect(displayFormMock).toHaveBeenCalledTimes(1);
   const handlePlayerSubmit = displayFormMock.mock.calls[0][0];
@@ -33,24 +30,24 @@ it('Game constructor should instantiate classes and properties', () => {
       name: 'player2',
       character: '2',
     },
-  }
+  };
 
-  const displaySideCardMock = mockDisplayInstance.displaySideCard;
-  const tileClickListenerMock = mockDisplayInstance.tileClickListener;
+  const displaySideCardMock = Display.displaySideCard;
+  const tileClickListenerMock = Display.tileClickListener;
 
   handlePlayerSubmit(playerData);
 
   expect(displaySideCardMock).toHaveBeenCalledTimes(1);
-  expect(game.player1).toMatchObject({name: 'player1', character: '1'});
-  expect(game.player2).toMatchObject({name: 'player2', character: '2'});
+  expect(game.player1).toMatchObject({ name: 'player1', character: '1' });
+  expect(game.player2).toMatchObject({ name: 'player2', character: '2' });
   expect(tileClickListenerMock).toHaveBeenCalledTimes(1);
 });
 
 test('Should setup nextPlayer', () => {
   const game = new Game();
 
-  const player1 = { name: 'player1', character: '1'};
-  const player2 = { name: 'player2', character: '2'};
+  const player1 = { name: 'player1', character: '1' };
+  const player2 = { name: 'player2', character: '2' };
   game.player1 = player1;
   game.player2 = player2;
 
@@ -63,28 +60,27 @@ test('Should setup nextPlayer', () => {
 
 test('Should setup turn', () => {
   const game = new Game();
-  const player1 = { name: 'player1', character: '1'};
-  const player2 = { name: 'player2', character: '2'};
+  const player1 = { name: 'player1', character: '1' };
+  const player2 = { name: 'player2', character: '2' };
   game.player1 = player1;
   game.player2 = player2;
 
-  const nextPlayerSpy = jest.spyOn(game, 'nextPlayer'); 
+  const nextPlayerSpy = jest.spyOn(game, 'nextPlayer');
 
   game.setupTurn();
   expect(nextPlayerSpy).toHaveBeenCalledTimes(1);
 
-  const mockDisplayInstance = Display.mock.instances[0];
-  const displaySideCard = mockDisplayInstance.displaySideCard;
-  const displayMessage = mockDisplayInstance.displayMessage;
+  const displaySideCardSpy = jest.spyOn(Display, 'displaySideCard');
+  const displayMessageSpy = jest.spyOn(Display, 'displayMessage');
 
-  expect(displaySideCard).toHaveBeenCalledTimes(1);
-  expect(displayMessage).toHaveBeenCalledTimes(1);
-  
+  expect(displaySideCardSpy).toHaveBeenCalledTimes(1);
+  expect(displayMessageSpy).toHaveBeenCalledTimes(1);
+
   const playerName = game.currentPlayer.name;
   const playerChar = game.currentPlayer.character;
 
-  const displayMessageArgument = displayMessage.mock.calls[0][0];
-  const expectedMessageString = `${playerName}\'s turn (${playerChar})`;
+  const displayMessageArgument = displayMessageSpy.mock.calls[0][0];
+  const expectedMessageString = `${playerName}'s turn (${playerChar})`;
   expect(displayMessageArgument).toBe(expectedMessageString);
 });
 
@@ -96,16 +92,14 @@ test('Should execute normal turn', () => {
   const currentCharacter = 'C';
 
   game.currentPlayer = { character: currentCharacter };
-  const executeTurnSpy = jest.spyOn(game, 'executeTurn');
   const setupTurnSpy = jest.spyOn(game, 'setupTurn');
 
-  const mockDisplayInstance = Display.mock.instances[0];
   const mockBoardInstance = Board.mock.instances[0];
 
-  const indexToCoordinatesMock = mockBoardInstance.indexToCoordinates;
-  const isAvailableMock = mockBoardInstance.isAvailable; 
+  const indexToCoordinatesMock = Board.indexToCoordinates;
+  const isAvailableMock = mockBoardInstance.isAvailable;
   const fillSpaceMock = mockBoardInstance.fillSpace;
-  const fillTileMock = mockDisplayInstance.fillTile;
+  const fillTileMock = Display.fillTile;
   const isWinMock = mockBoardInstance.isWin;
   const isTieMock = mockBoardInstance.isTie;
 
@@ -116,7 +110,7 @@ test('Should execute normal turn', () => {
 
   game.executeTurn(tileIndex);
 
-  expect(indexToCoordinatesMock).toHaveBeenCalledTimes(1); 
+  expect(indexToCoordinatesMock).toHaveBeenCalledTimes(1);
   expect(isAvailableMock).toHaveBeenCalledTimes(1);
   expect(fillSpaceMock).toHaveBeenCalledTimes(1);
   expect(fillSpaceMock.mock.calls[0]).toEqual([row, col, currentCharacter]);
@@ -133,25 +127,22 @@ test('Should execute win turn', () => {
   const currentCharacter = 'C';
   const currentName = 'Winner';
 
-  game.currentPlayer = { 
+  game.currentPlayer = {
     name: currentName,
     character: currentCharacter,
   };
 
   const handleRematchSpy = jest.spyOn(game, 'handleRematch');
 
-  const mockDisplayInstance = Display.mock.instances[0];
   const mockBoardInstance = Board.mock.instances[0];
 
-  const isAvailableMock = mockBoardInstance.isAvailable; 
-  const fillSpaceMock = mockBoardInstance.fillSpace;
+  const isAvailableMock = mockBoardInstance.isAvailable;
   const isWinMock = mockBoardInstance.isWin;
   const clearBoardDataMock = mockBoardInstance.clearBoardData;
-  const indexToCoordinatesMock = mockBoardInstance.indexToCoordinates;
+  const indexToCoordinatesMock = Board.indexToCoordinates;
 
-  const fillTileMock = mockDisplayInstance.fillTile;
-  const displayMessageMock = mockDisplayInstance.displayMessage;
-  const displayWinMock = mockDisplayInstance.displayWin;
+  const displayMessageSpy = jest.spyOn(Display, 'displayMessage');
+  const displayWinSpy = jest.spyOn(Display, 'displayWin');
 
   indexToCoordinatesMock.mockReturnValueOnce([row, col]);
   isAvailableMock.mockReturnValueOnce(true);
@@ -159,11 +150,11 @@ test('Should execute win turn', () => {
 
   game.executeTurn(tileIndex);
 
-  expect(displayMessageMock).toHaveBeenCalledTimes(1);
-  
+  expect(displayMessageSpy).toHaveBeenCalledTimes(1);
+
   const winMessage = `${currentName} wins!`;
-  expect(displayMessageMock.mock.calls[0][0]).toBe(winMessage);
-  expect(displayWinMock).toHaveBeenCalledTimes(1);
+  expect(displayMessageSpy.mock.calls[0][0]).toBe(winMessage);
+  expect(displayWinSpy).toHaveBeenCalledTimes(1);
   expect(clearBoardDataMock).toHaveBeenCalledTimes(1);
   expect(handleRematchSpy).toHaveBeenCalledTimes(1);
 });
@@ -176,50 +167,45 @@ test('Should execute tie turn', () => {
 
   const handleRematchSpy = jest.spyOn(game, 'handleRematch');
 
-  const mockDisplayInstance = Display.mock.instances[0];
   const mockBoardInstance = Board.mock.instances[0];
 
-  const isAvailableMock = mockBoardInstance.isAvailable; 
-  const fillSpaceMock = mockBoardInstance.fillSpace;
+  const isAvailableMock = mockBoardInstance.isAvailable;
   const isWinMock = mockBoardInstance.isWin;
   const isTieMock = mockBoardInstance.isTie;
   const clearBoardDataMock = mockBoardInstance.clearBoardData;
-  const indexToCoordinatesMock = mockBoardInstance.indexToCoordinates;
+  const indexToCoordinatesMock = Board.indexToCoordinates;
 
-  const clearBoardMock = mockDisplayInstance.clearBoard;
-  const fillTileMock = mockDisplayInstance.fillTile;
-  const displayMessageMock = mockDisplayInstance.displayMessage;
+  const clearBoardSpy = jest.spyOn(Display, 'clearBoard');
+  const displayMessageSpy = jest.spyOn(Display, 'displayMessage');
 
   indexToCoordinatesMock.mockReturnValueOnce([row, col]);
   isAvailableMock.mockReturnValueOnce(true);
   isWinMock.mockReturnValueOnce(false);
   isTieMock.mockReturnValueOnce(true);
 
+  jest.clearAllMocks();
   game.executeTurn(tileIndex);
 
-  expect(displayMessageMock).toHaveBeenCalledTimes(1);
-  
+  expect(displayMessageSpy).toHaveBeenCalledTimes(1);
+
   const tieMessage = "It's a tie!";
-  expect(displayMessageMock.mock.calls[0][0]).toBe(tieMessage);
+  expect(displayMessageSpy.mock.calls[0][0]).toBe(tieMessage);
   expect(clearBoardDataMock).toHaveBeenCalledTimes(1);
-  expect(clearBoardMock).toHaveBeenCalledTimes(1);
+  expect(clearBoardSpy).toHaveBeenCalledTimes(1);
   expect(handleRematchSpy).toHaveBeenCalledTimes(1);
 });
 
 test('Shoud handleRematch', () => {
-  const game = new Game(); 
-  const handleRematchSpy = jest.spyOn(game, 'handleRematch');
+  const game = new Game();
   const setupTurnSpy = jest.spyOn(game, 'setupTurn');
 
-
-  const mockDisplayInstance = Display.mock.instances[0];
-  const displayReplayMock = mockDisplayInstance.displayReplay; 
+  const displayReplayMock = Display.displayReplay;
 
   game.handleRematch();
 
-  const tileClickListenerMock = mockDisplayInstance.tileClickListener; 
-  const clearBoardMock = mockDisplayInstance.clearBoard;
-  const displayFormMock = mockDisplayInstance.displayForm;
+  const tileClickListenerMock = Display.tileClickListener;
+  const clearBoardMock = Display.clearBoard;
+  const displayFormMock = Display.displayForm;
 
   const onRematch = displayReplayMock.mock.calls[0][0];
   const onRedo = displayReplayMock.mock.calls[0][1];
@@ -237,7 +223,7 @@ test('Shoud handleRematch', () => {
   tileClickListenerMock.mockClear();
 
   onRematch();
-  
+
   expect(clearBoardMock).toHaveBeenCalledTimes(1);
   expect(setupTurnSpy).toHaveBeenCalledTimes(1);
   expect(tileClickListenerMock).toHaveBeenCalledTimes(1);

@@ -11,8 +11,8 @@ class Board {
     return this.boardData;
   }
 
-  indexToCoordinates(index) {
-    return [Math.floor(index/3), index%3];
+  static indexToCoordinates(index) {
+    return [Math.floor(index / 3), index % 3];
   }
 
   getTileData(row, column) {
@@ -31,7 +31,7 @@ class Board {
   }
 
   isTie() {
-    const leanData = this.boardData.flat().filter( chr => chr !== undefined );
+    const leanData = this.boardData.flat().filter(chr => chr !== undefined);
 
     return leanData.length === 9;
   }
@@ -47,13 +47,13 @@ class Board {
     const setDirectionVariable = (currentValue, row, column) => {
       const writtenChar = this.boardData[row][column];
 
-      if(writtenChar === undefined) return false;
+      if (writtenChar === undefined) return false;
 
-      if(currentValue === undefined) return writtenChar;
+      if (currentValue === undefined) return writtenChar;
 
-      if(currentValue && currentValue === writtenChar) return writtenChar;
+      if (currentValue && currentValue === writtenChar) return writtenChar;
 
-      return false
+      return false;
     };
 
     for (row = 0; row <= 2; row += 1) {

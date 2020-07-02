@@ -1,33 +1,29 @@
 import Display from '../src/js/display';
 
 test('Hides and shows side-card', () => {
-  const display = new Display();
-  document.body.innerHTML =
-    '<div class="side-card slide-in" id="side-card">' +
-    '</div>';
+  document.body.innerHTML = '<div class="side-card slide-in" id="side-card">'
+    + '</div>';
 
-  display.hideSideCard();
+  Display.hideSideCard();
   expect(Array.from(document.getElementById('side-card').classList))
     .toEqual(expect.arrayContaining(['slide-out']));
 
-  display.displaySideCard();
+  Display.displaySideCard();
   expect(Array.from(document.getElementById('side-card').classList))
     .toEqual(expect.arrayContaining(['slide-in']));
 
-  display.hideSideCard();
+  Display.hideSideCard();
   expect(Array.from(document.getElementById('side-card').classList))
     .toEqual(expect.arrayContaining(['slide-out']));
 });
 
 
 test('Adds message to side-card', () => {
-  const display = new Display();
-  document.body.innerHTML =
-    '<div class="side-card slide-in" id="side-card">' +
-    '</div>';
+  document.body.innerHTML = '<div class="side-card slide-in" id="side-card">'
+    + '</div>';
 
   const message = 'Test Message';
-  display.displayMessage(message); 
+  Display.displayMessage(message);
 
   const firstChild = document.getElementById('side-card').firstElementChild;
   expect(firstChild.nodeName).toBe('H3');
@@ -35,14 +31,12 @@ test('Adds message to side-card', () => {
 });
 
 test('Clears side card before adding message', () => {
-  const display = new Display();
-  document.body.innerHTML =
-    '<div class="side-card slide-in" id="side-card">' +
-      '<h3>junk</h3>' +
-    '</div>';
+  document.body.innerHTML = '<div class="side-card slide-in" id="side-card">'
+      + '<h3>junk</h3>'
+    + '</div>';
 
   const message = 'Test Message';
-  display.displayMessage(message); 
+  Display.displayMessage(message);
 
   const firstChild = document.getElementById('side-card').firstElementChild;
   expect(firstChild.parentElement.children.length).toBe(1);
@@ -51,79 +45,72 @@ test('Clears side card before adding message', () => {
 });
 
 test('Clears board', () => {
-  const display = new Display();
-
-  let boardHTML = '<div class="board" id="board">' 
-  for(let i = 0; i < 9; i += 1){
+  let boardHTML = '<div class="board" id="board">';
+  for (let i = 0; i < 9; i += 1) {
     boardHTML += `
       <div class="tile"> 
       <h1 class="tile-container"></h1> 
       </div>`;
   }
-  boardHTML += '</div>'; 
+  boardHTML += '</div>';
   document.body.innerHTML = boardHTML;
 
-  display.fillTile(0, 'X');
-  display.clearBoard();
+  Display.fillTile(0, 'X');
+  Display.clearBoard();
   expect(document.getElementsByClassName('tile-container')[0].innerHTML)
     .toBe('');
 });
 
 test('Displays win', () => {
-  const display = new Display();
-
-  let boardHTML = '<div class="board" id="board">' 
-  for(let i = 0; i < 9; i += 1){
+  let boardHTML = '<div class="board" id="board">';
+  for (let i = 0; i < 9; i += 1) {
     boardHTML += `
       <div class="tile"> 
       <h1 class="tile-container"></h1> 
       </div>`;
   }
-  boardHTML += '</div>'; 
+  boardHTML += '</div>';
   document.body.innerHTML = boardHTML;
 
-  display.displayWin();  
+  Display.displayWin();
 
   const tileContainers = Array.from(document.getElementsByClassName('tile-container'));
 
-  tileContainers.forEach( tileContainer => {
-    expect(tileContainer.textContent).toBe(String.fromCodePoint(0x0001F389)); 
+  tileContainers.forEach(tileContainer => {
+    expect(tileContainer.textContent).toBe(String.fromCodePoint(0x0001F389));
   });
 });
 
 test('Fills tile with character', () => {
-  const display = new Display();
-
-  let boardHTML = '<div class="board" id="board">' 
-  for(let i = 0; i < 9; i += 1){
+  let boardHTML = '<div class="board" id="board">';
+  for (let i = 0; i < 9; i += 1) {
     boardHTML += `
       <div class="tile"> 
       <h1 class="tile-container"></h1> 
       </div>`;
   }
-  boardHTML += '</div>'; 
+  boardHTML += '</div>';
   document.body.innerHTML = boardHTML;
 
-  display.fillTile(0, 'X');
+  Display.fillTile(0, 'X');
   expect(document.getElementById('board').children[0].firstElementChild.textContent)
     .toBe('X');
-  display.fillTile(2, 'O');
+  Display.fillTile(2, 'O');
   expect(document.getElementById('board').children[2].firstElementChild.textContent)
     .toBe('O');
-  display.fillTile(8, 'C');
+  Display.fillTile(8, 'C');
   expect(document.getElementById('board').children[8].firstElementChild.textContent)
     .toBe('C');
 });
 
 test('Displays form', () => {
-  const display = new Display();
   const handleFormSubmit = jest.fn(info => info);
 
   document.body.innerHTML = `
     <div class="side-card slide-in" id="side-card">
     </div>`;
 
-  display.displayForm(handleFormSubmit);
+  Display.displayForm(handleFormSubmit);
   const playerContainers = Array.from(document.getElementsByClassName('player-container'));
   const submitButton = document.getElementById('side-card').lastChild;
 
@@ -132,16 +119,16 @@ test('Displays form', () => {
   expect(playerContainers.length).toBe(2);
 
   let playerContainerPosition = 1;
-  playerContainers.forEach( playerContainer => {
+  playerContainers.forEach(playerContainer => {
     const nameInput = playerContainer.firstElementChild;
     const charInput = playerContainer.lastElementChild;
     expect(nameInput.className).toBe('name-input');
     expect(charInput.className).toBe('char-input');
-    expect(nameInput.id).toBe('p' + playerContainerPosition + '-name');
-    expect(charInput.id).toBe('p' + playerContainerPosition + '-char');
-    expect(nameInput.value).toBe('Player ' + playerContainerPosition);
+    expect(nameInput.id).toBe(`p${playerContainerPosition}-name`);
+    expect(charInput.id).toBe(`p${playerContainerPosition}-char`);
+    expect(nameInput.value).toBe(`Player ${playerContainerPosition}`);
 
-    if(playerContainerPosition == 1) {
+    if (playerContainerPosition === 1) {
       expect(charInput.value).toBe('X');
     } else {
       expect(charInput.value).toBe('O');
@@ -155,7 +142,7 @@ test('Displays form', () => {
   // Testing form submit
 
   playerContainerPosition = 1;
-  playerContainers.forEach( playerContainer => {
+  playerContainers.forEach(playerContainer => {
     const nameInput = playerContainer.firstElementChild;
     const charInput = playerContainer.lastElementChild;
 
@@ -165,7 +152,7 @@ test('Displays form', () => {
   });
 
   expect(handleFormSubmit.mock.calls.length).toBe(0);
-  submitButton.click(); 
+  submitButton.click();
   expect(handleFormSubmit.mock.calls.length).toBe(1);
   expect(handleFormSubmit.mock.results[0].value)
     .toStrictEqual({
@@ -182,7 +169,7 @@ test('Displays form', () => {
   // Shouldn't submit form if characters equal
 
   playerContainerPosition = 1;
-  playerContainers.forEach( playerContainer => {
+  playerContainers.forEach(playerContainer => {
     const nameInput = playerContainer.firstElementChild;
     const charInput = playerContainer.lastElementChild;
 
@@ -190,12 +177,12 @@ test('Displays form', () => {
     charInput.value = 'x';
     playerContainerPosition += 1;
   });
-  submitButton.click(); 
+  submitButton.click();
   expect(handleFormSubmit.mock.calls.length).toBe(1);
 
   // Shouldn't submit form if characters longer than 1
   playerContainerPosition = 1;
-  playerContainers.forEach( playerContainer => {
+  playerContainers.forEach(playerContainer => {
     const nameInput = playerContainer.firstElementChild;
     const charInput = playerContainer.lastElementChild;
 
@@ -203,30 +190,28 @@ test('Displays form', () => {
     charInput.value = `x${playerContainerPosition}`;
     playerContainerPosition += 1;
   });
-  submitButton.click(); 
+  submitButton.click();
   expect(handleFormSubmit.mock.calls.length).toBe(1);
-
 });
 
 test('Should add eventListener to tile click', () => {
-  const display = new Display();
-  let boardHTML = '<div class="board" id="board">' 
+  let boardHTML = '<div class="board" id="board">';
 
-  for(let i = 0; i < 9; i += 1){
+  for (let i = 0; i < 9; i += 1) {
     boardHTML += `
       <div class="tile"> 
       <h1 class="tile-container"></h1> 
       </div>`;
   }
 
-  boardHTML += '</div>'; 
+  boardHTML += '</div>';
   document.body.innerHTML = boardHTML;
 
   const toBeCalledFunction = jest.fn();
   const tiles = Array.from(document.getElementsByClassName('tile-container'));
-  display.tileClickListener(toBeCalledFunction);
+  Display.tileClickListener(toBeCalledFunction);
 
-  for(let i = 0; i <= 8; i += 1) {
+  for (let i = 0; i <= 8; i += 1) {
     tiles[i].click();
   }
   expect(toBeCalledFunction.mock.calls.length).toBe(9);

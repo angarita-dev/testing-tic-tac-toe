@@ -1,16 +1,15 @@
 class Display {
-
-  clearChildren(parentElement) {
-    while(parentElement.hasChildNodes()) {
+  static clearChildren(parentElement) {
+    while (parentElement.hasChildNodes()) {
       parentElement.removeChild(parentElement.firstChild);
     }
   }
 
-  clearBoard() {
+  static clearBoard() {
     const board = document.getElementById('board');
 
-    let boardHTML = '' ;
-    for(let i = 0; i < 9; i += 1){
+    let boardHTML = '';
+    for (let i = 0; i < 9; i += 1) {
       boardHTML += `
         <div class="tile"> 
         <h1 class="tile-container"></h1> 
@@ -20,22 +19,22 @@ class Display {
     board.innerHTML = boardHTML;
   }
 
-  displaySideCard() {
+  static displaySideCard() {
     const sideCard = document.getElementById('side-card');
-    
+
     sideCard.classList.remove('slide-out');
     sideCard.classList.add('slide-in');
   }
 
-  displayWin() {
+  static displayWin() {
     const tileContainers = Array.from(document.getElementsByClassName('tile-container'));
 
-    tileContainers.forEach( tileContainer => {
-      tileContainer.textContent = String.fromCodePoint(0x0001F389); 
+    tileContainers.forEach(tileContainer => {
+      tileContainer.textContent = String.fromCodePoint(0x0001F389);
     });
   }
 
-  displayReplay(rematchHandler, restartHandler) {
+  static displayReplay(rematchHandler, restartHandler) {
     const sideCard = document.getElementById('side-card');
 
     const buttonContainer = document.createElement('div');
@@ -46,46 +45,46 @@ class Display {
 
     const restart = document.createElement('span');
     restart.textContent = 'New game';
-    
+
     sideCard.appendChild(buttonContainer);
 
     buttonContainer.appendChild(rematch);
     buttonContainer.appendChild(restart);
 
     rematch.classList.add('rematch-button');
-    rematch.onclick = () => { rematchHandler() };
+    rematch.onclick = () => { rematchHandler(); };
 
     restart.classList.add('restart-button');
-    restart.onclick = () => { restartHandler() };
+    restart.onclick = () => { restartHandler(); };
   }
 
-  hideSideCard() {
+  static hideSideCard() {
     const sideCard = document.getElementById('side-card');
-    
+
     sideCard.classList.remove('slide-in');
     sideCard.classList.add('slide-out');
   }
 
-  tileClickListener(handleFunction) {
+  static tileClickListener(handleFunction) {
     const tileContainers = Array.from(document.getElementsByClassName('tile-container'));
 
-    tileContainers.forEach( tileContainer => {
-      tileContainer.onclick = () => { 
+    tileContainers.forEach(tileContainer => {
+      tileContainer.onclick = () => {
         const itemIndex = tileContainers.indexOf(tileContainer);
         handleFunction(itemIndex);
       };
     });
   }
 
-  fillTile(tileIndex, character) {
-    const board = document.getElementById('board'); 
+  static fillTile(tileIndex, character) {
+    const board = document.getElementById('board');
     const tile = board.children[tileIndex];
 
     tile.firstElementChild.textContent = character;
   }
 
-  displayMessage(message) {
-    const sideCardContainer = document.getElementById('side-card'); 
+  static displayMessage(message) {
+    const sideCardContainer = document.getElementById('side-card');
     const messageComponent = document.createElement('h3');
 
     messageComponent.textContent = message;
@@ -93,11 +92,11 @@ class Display {
     sideCardContainer.appendChild(messageComponent);
   }
 
-  displayForm(submitHandleFunction) {
-    const sideCardContainer = document.getElementById('side-card'); 
+  static displayForm(submitHandleFunction) {
+    const sideCardContainer = document.getElementById('side-card');
 
     this.clearChildren(sideCardContainer);
-    for(let i = 1; i <= 2; i += 1){
+    for (let i = 1; i <= 2; i += 1) {
       const playerContainer = document.createElement('div');
       playerContainer.className = 'player-container';
 
@@ -109,7 +108,7 @@ class Display {
       const charInput = document.createElement('input');
       charInput.className = 'char-input';
       charInput.id = `p${i}-char`;
-      charInput.value = i == 1 ? 'X' : 'O';
+      charInput.value = i === 1 ? 'X' : 'O';
 
       playerContainer.appendChild(nameInput);
       playerContainer.appendChild(charInput);
@@ -122,27 +121,25 @@ class Display {
     submitButton.textContent = 'Submit';
 
     submitButton.onclick = () => {
-      let char1 = document.getElementById('p1-char').value;
-      let char2 = document.getElementById('p2-char').value;
+      const char1 = document.getElementById('p1-char').value;
+      const char2 = document.getElementById('p2-char').value;
 
-      if(char1 === char2 || char1.length > 1 || char2.length > 1) return false;
+      if (char1 === char2 || char1.length > 1 || char2.length > 1) return;
 
       submitHandleFunction({
         player1: {
           name: document.getElementById('p1-name').value,
-          character: char1, 
+          character: char1,
         },
         player2: {
           name: document.getElementById('p2-name').value,
-          character: char2, 
-        }
+          character: char2,
+        },
       });
-    }
+    };
 
     sideCardContainer.appendChild(submitButton);
   }
-
-
 }
 
 export default Display;

@@ -48,6 +48,22 @@
   font-family: "Open Sans", sans-serif;
   font-weight: 400;
 }
+.side-card .replay-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-evenly;
+  margin-bottom: 1rem;
+}
+.side-card .replay-container span {
+  color: #d9d9d9;
+  font-family: "Spartan", sans-serif;
+  cursor: pointer;
+  transition: color 1s ease;
+}
+.side-card .replay-container span:hover {
+  color: #fff;
+}
 .side-card .submit-players {
   color: #d9d9d9;
   font-family: "Open Sans", sans-serif;

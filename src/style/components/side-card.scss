@@ -30,12 +30,13 @@
     width: 100%;
     justify-content: space-evenly;
     margin-bottom: 1rem;
+
     span {
       color: $light-white;
       font-family: $title-font;
       cursor: pointer;
       transition: color 1s ease;
-      
+
       &:hover {
         color: $white;
       }
