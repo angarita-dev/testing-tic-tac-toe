@@ -1,0 +1,13 @@
+.card {
+  justify-self: flex-end;
+  position: relative;
+  background-color: $grey;
+  border-radius: 11px;
+  width: 35%;
+
+  &::after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+  }
+}
