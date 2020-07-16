@@ -1,0 +1,86 @@
+@import "../shared/mixins";
+@import "../shared/variables";
+
+.side-card {
+  @include flex-column;
+
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: $grey;
+  width: 80%;
+  height: 50%;
+  margin: auto 0;
+  border-radius: 11px;
+  position: absolute;
+  z-index: -1;
+
+  &,
+  .slide-in { z-index: 0; }
+
+  h3 {
+    margin: auto 0;
+    color: $light-white;
+    font-family: $text-font;
+    font-weight: 400;
+  }
+
+  .replay-container {
+    @include flex-row;
+
+    width: 100%;
+    justify-content: space-evenly;
+    margin-bottom: 1rem;
+
+    span {
+      color: $light-white;
+      font-family: $title-font;
+      cursor: pointer;
+      transition: color 1s ease;
+
+      &:hover {
+        color: $white;
+      }
+    }
+  }
+
+  .submit-players {
+    color: $light-white;
+    font-family: $text-font;
+    cursor: pointer;
+    transition: color 1s ease;
+
+    &:hover {
+      color: $white;
+    }
+  }
+
+  .player-container {
+    @include flex-row;
+
+    justify-content: space-between;
+    padding: 0 10%;
+
+    input {
+      background-color: $grey;
+      color: $dark-white;
+      font-family: $text-font;
+      border: none;
+      border-bottom: 1px solid $light-grey;
+      transition: border-bottom 1s ease;
+
+      &:hover,
+      &:focus {
+        border-bottom: 1px solid $dark-white;
+      }
+    }
+
+    .name-input {
+      width: 60%;
+    }
+
+    .char-input {
+      width: 10%;
+      text-align: center;
+    }
+  }
+}

@@ -1,0 +1,17 @@
+@import "../shared/variables";
+@import "../shared/mixins";
+
+.container {
+  @include flex-column;
+
+  align-items: center;
+  height: 100%;
+
+  .card-container {
+    @include flex-row;
+
+    margin-top: 10%;
+    justify-content: center;
+    width: 60vw;
+  }
+}
